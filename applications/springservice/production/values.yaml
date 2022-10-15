@@ -1,0 +1,66 @@
+name: "springservice"
+namespace: "production"
+replicaCount: 2
+executeCommand: "java -jar /app/app.jar"
+
+image:
+  repository: hub.docker.com/repository/docker/alicanuzun/springboot
+  pullPolicy: Always
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+probe:
+  enabled: true
+  livenessPath: /health
+  readinessPath: /health
+
+ingress:
+  enabled: true
+  ingresses:
+    - name: springapp
+      annotations:
+      hosts:
+        - host: 127.0.0.1:8080
+          paths:
+            - "/"
+  tls: []
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 1000Mi
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 5
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 70
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
