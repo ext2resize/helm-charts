@@ -19,6 +19,15 @@ serviceAccount:
 
 podAnnotations: {}
 
+PodDisruptionBudget:
+metadata:
+  name: zk-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      node-type: worker
+
 podSecurityContext: {}
 
 securityContext: {}
@@ -29,17 +38,23 @@ service:
   targetPort: 8080
 
 probe:
-  enabled: true
+  enabled: false
   livenessPath: /health
   readinessPath: /health
 
 ingress:
-  enabled: true
+  enabled: false
   ingresses:
     - name: springapp
       annotations:
       hosts:
-        - host: 127.0.0.1:8080
+        - host: 10.50.0.10:8080
+          paths:
+            - "/"
+        - host: 10.50.0.11:8080
+          paths:
+            - "/"
+        - host: 10.50.0.12:8080
           paths:
             - "/"
   tls: []
@@ -63,4 +78,12 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-type
+          operator: In
+          values:
+          - worker
