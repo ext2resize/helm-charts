@@ -19,7 +19,8 @@ serviceAccount:
 
 podAnnotations: {}
 
-minAvailable: 2
+PodDisruptionBudget:
+  minAvailable: 2
 
 podSecurityContext: {}
 
