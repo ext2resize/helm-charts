@@ -19,14 +19,7 @@ serviceAccount:
 
 podAnnotations: {}
 
-PodDisruptionBudget:
-metadata:
-  name: zk-pdb
-spec:
-  minAvailable: 2
-  selector:
-    matchLabels:
-      node-type: worker
+minAvailable: 2
 
 podSecurityContext: {}
 
