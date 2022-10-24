@@ -8,7 +8,8 @@ image:
   pullPolicy: Always
   tag: "latest"
 
-imagePullSecrets: regcred
+imagePullSecrets: 
+-name: regcred
 
 nameOverride: ""
 fullnameOverride: ""
