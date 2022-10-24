@@ -20,6 +20,7 @@ serviceAccount:
 podAnnotations: {}
 
 PodDisruptionBudget:
+  enabled: false
   minAvailable: 2
 
 podSecurityContext: {}

@@ -3,13 +3,14 @@
 {{- $svcPort := .Values.service.port -}}
 {{- $svcName := .Values.name  -}}
 {{- range .Values.ingress.ingresses }}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $serviceName }}
   annotations:
     {{- toYaml .annotations | nindent 4 }}
 spec:
+  ingressClassName: nginx
   rules:
     {{- range .hosts }}
     - host: {{ .host | quote }}
@@ -17,9 +18,12 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ . }}
+            pathType: ImplementationSpecific
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $svcPort }}
+              service:
+                name: {{ $serviceName }}
+                port:
+                  number: {{ $svcPort }}
           {{- end }}
     {{- end }}
 ---

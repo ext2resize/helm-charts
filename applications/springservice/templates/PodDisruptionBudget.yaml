@@ -1,4 +1,4 @@
-{{- if .Values.PodDisruptionBudget.minAvailable }}
+{{- if .Values.PodDisruptionBudget.enabled }}
 {{- if .Capabilities.APIVersions.Has "policy/v1" -}}
 apiVersion: policy/v1
 {{- else}}
