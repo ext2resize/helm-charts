@@ -2,11 +2,11 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: springservice-pdb
-  namespace: production
+  name: {{ .Values.podDisruption.name }}
+  namespace: {{ .Values.namespace }}
 spec:
-  minAvailable: 2
+  minAvailable: {{ .Values.podDisruption.minAvailable }}
   selector:
     matchLabels:
-      app: springservice
+      app: {{ .Values.name }}
 {{- end }}
