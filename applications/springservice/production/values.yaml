@@ -1,6 +1,6 @@
 name: "springservice"
 namespace: "production"
-replicaCount: 2
+replicaCount: 4
 executeCommand: "java -jar /app/app.jar"
 
 image:
@@ -21,8 +21,8 @@ serviceAccount:
 
 podAnnotations: {}
 
-PodDisruptionBudget:
-  enabled: false
+podDisruption:
+  enabled: true
   minAvailable: 2
 
 podSecurityContext: {}
