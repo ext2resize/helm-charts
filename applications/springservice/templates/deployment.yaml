@@ -43,12 +43,13 @@ spec:
           - name: http
             containerPort: {{ .Values.service.targetPort }}
             protocol: TCP
+        {{- if .Values.probe.enabled }}
         livenessProbe:
           failureThreshold: 3
           httpGet:
             path: {{ .Values.probe.livenessPath }}
             port: {{ .Values.service.targetPort }}
-          initialDelaySeconds: 80
+          initialDelaySeconds: 10
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
@@ -57,10 +58,11 @@ spec:
           httpGet:
             path: {{ .Values.probe.readinessPath }}
             port: {{ .Values.service.targetPort }}
-          initialDelaySeconds: 80
+          initialDelaySeconds: 10
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
